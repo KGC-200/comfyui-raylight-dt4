@@ -116,13 +116,6 @@ def main():
     else:
         print("Error")
 
-    try:
-        while True:
-            time.sleep(5)
-    except KeyboardInterrupt:
-        core_proc.terminate()
-        proxy_proc.terminate()
-
 
 if __name__ == "__main__":
     main()
