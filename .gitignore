@@ -1,0 +1,30 @@
+# Entornos y binarios
+.venv/
+venv/
+ENV/
+*.pyc
+__pycache__/
+
+# Modelos y caches
+/models/
+/tmp/comfy_models
+.cache/
+*.safetensors
+*.bin
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.gguf
+
+# Salidas y temporales
+/output/
+/temp/
+/input/*.png
+/input/*.jpg
+/input/*.jpeg
+/input/*.mp4
+
+# Logs
+*.log
+*.pid
