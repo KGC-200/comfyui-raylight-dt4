@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
+import json
 import os
 import shutil
+import struct
 import subprocess
 import sys
 
@@ -85,12 +87,48 @@ def clean_cache():
                 pass
 
 
+def check_and_sanitize_file(dest_path: str) -> bool:
+    if not os.path.exists(dest_path) or os.path.getsize(dest_path) == 0:
+        return False
+    if dest_path.endswith(".safetensors"):
+        try:
+            with open(dest_path, "r+b") as f:
+                header_bytes = f.read(8)
+                if len(header_bytes) < 8:
+                    return False
+                header_len = struct.unpack("<Q", header_bytes)[0]
+                header_json = json.loads(f.read(header_len).decode("utf-8"))
+                max_offset = max(
+                    v["data_offsets"][1]
+                    for k, v in header_json.items()
+                    if isinstance(v, dict) and "data_offsets" in v
+                )
+                expected_size = 8 + header_len + max_offset
+                f.seek(0, 2)
+                actual_size = f.tell()
+                if actual_size > expected_size:
+                    f.truncate(expected_size)
+                    return True
+                elif actual_size < expected_size:
+                    return False
+                return True
+        except Exception:
+            return False
+    return True
+
+
 def fetch_file(repo: str, remote_file: str, target_subfolder: str, target_name: str):
     target_dir = os.path.join(BASE_MODELS_DIR, target_subfolder)
     dest_path = os.path.join(target_dir, target_name)
 
-    if os.path.exists(dest_path) and os.path.getsize(dest_path) > 0:
+    if check_and_sanitize_file(dest_path):
         return
+
+    if os.path.exists(dest_path):
+        try:
+            os.remove(dest_path)
+        except Exception:
+            pass
 
     hf_bin = "/tmp/.venv/bin/hf"
     env = os.environ.copy()
@@ -116,6 +154,7 @@ def fetch_file(repo: str, remote_file: str, target_subfolder: str, target_name: 
         os.makedirs(os.path.dirname(dest_path), exist_ok=True)
         shutil.move(downloaded_nested, dest_path)
 
+    check_and_sanitize_file(dest_path)
     clean_cache()
 
 
