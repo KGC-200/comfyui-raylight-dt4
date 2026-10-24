@@ -34,10 +34,10 @@ WEIGHTS_MANIFEST = [
         "target_name": "minimax_h3_fl2v_turbo_8step_v1.1_768p_comfyui_bf16.safetensors",
     },
     {
-        "repo": "Comfy-Org/MiniMax-H3",
-        "file": "diffusion_models/minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+        "repo": "Abiray/Minimax-H3-nvfp4-INT4-INT8-Convrot",
+        "file": "MiniMax_H3_FL2VA_pruned_mixed_int4_int8_convrot.safetensors",
         "target_subfolder": "diffusion_models",
-        "target_name": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+        "target_name": "MiniMax_H3_FL2VA_pruned_mixed_int4_int8_convrot.safetensors",
     },
     {
         "repo": "Winnougan/MiniMax-H3-INT4_Convrot_ComfyUI",
