@@ -29,7 +29,7 @@ WEIGHTS_MANIFEST = [
     },
     {
         "repo": "lightx2v/Minimax-h3-Turbo",
-        "file": "minimax_h3_fl2v_turbo_8step_v1.1_768p_comfyui_bf16.safetensors",
+        "file": "minimax_h3_fl2v_turbo_8step_v1.0_comfyui_bf16.safetensors",
         "target_subfolder": "loras",
         "target_name": "minimax_h3_fl2v_turbo_8step_v1.1_768p_comfyui_bf16.safetensors",
     },
